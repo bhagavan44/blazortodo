@@ -19,7 +19,7 @@ else
             {
                 <tr>
                     <td>
-                        <TodoItem Todo="@todo" />
+                        <TodoItem Todo="@todo" OnDelete="@(e => onDelete(e,todo))" />
                     </td>
                 </tr>
             }
@@ -28,12 +28,17 @@ else
 }
 
 @code {
-    List<Models.Todo>
-    todos;
+    List<Models.Todo> todos;
 
     protected override async Task OnInitializedAsync()
     {
         todos = await TodoService.GetAsync();
+    }
+
+    private async Task onDelete(UIMouseEventArgs e, Models.Todo todo)
+    {
+        await TodoService.DeleteAsync(todo);
+        todos.Remove(todo);
     }
 }
 

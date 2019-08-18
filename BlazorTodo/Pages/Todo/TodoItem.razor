@@ -1,11 +1,11 @@
 ﻿@using BlazorTodo.Services
 @inject TodoService TodoService
 
-<div>
+<div class="@setClass()">
     <p>
-        <input @onchange="onToggle" type="checkbox" />
-        {{ todo.title }}
-        <button @onclick="onDelete" class="del">X</button>
+        <input @onchange="onToggle" type="checkbox" checked="@Todo.Completed" />
+        @Todo.Title
+        <button @onclick="OnDelete" class="del">X</button>
     </p>
 </div>
 
@@ -13,14 +13,17 @@
 @code {
     [Parameter] public Models.Todo Todo { get; set; }
 
-    async void  onToggle()
+    [Parameter]
+    public EventCallback<UIMouseEventArgs> OnDelete { get; set; }
+
+    async void onToggle()
     {
-        Todo.Completed = true;
+        Todo.Completed = !Todo.Completed;
         Todo = await TodoService.ToggleCompletedAsync(Todo);
     }
 
-    async void onDelete()
+    string setClass()
     {
-        await TodoService.DeleteAsync(Todo);
+        return Todo.Completed ? "todo is-complete" : "todo";
     }
 }
