@@ -1,0 +1,39 @@
+﻿@page "/todo"
+
+@using BlazorTodo.Services
+@inject TodoService TodoService
+
+<h1>Todo application</h1>
+
+<p>This component demonstrates todo application with getting data from a service.</p>
+
+@if (todos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <tbody>
+            @foreach (var todo in todos)
+            {
+                <tr>
+                    <td>
+                        <TodoItem Todo="@todo" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Models.Todo>
+    todos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        todos = await TodoService.GetAsync();
+    }
+}
+

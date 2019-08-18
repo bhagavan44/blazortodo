@@ -1,0 +1,26 @@
+﻿@using BlazorTodo.Services
+@inject TodoService TodoService
+
+<div>
+    <p>
+        <input @onchange="onToggle" type="checkbox" />
+        {{ todo.title }}
+        <button @onclick="onDelete" class="del">X</button>
+    </p>
+</div>
+
+
+@code {
+    [Parameter] public Models.Todo Todo { get; set; }
+
+    async void  onToggle()
+    {
+        Todo.Completed = true;
+        Todo = await TodoService.ToggleCompletedAsync(Todo);
+    }
+
+    async void onDelete()
+    {
+        await TodoService.DeleteAsync(Todo);
+    }
+}
