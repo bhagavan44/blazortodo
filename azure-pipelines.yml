@@ -21,7 +21,7 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '.NET Core 3.0'
+    version: '3.0'
     includePreviewVersions: true
     
 - task: NuGetCommand@2
