@@ -1,0 +1,33 @@
+﻿@using BlazorTodo.Services
+@using System.ComponentModel.DataAnnotations;
+
+@inject TodoService TodoService
+
+<EditForm Model="@Title" OnValidSubmit="@create">
+    <div class="row">
+        <div class="col-md-9">
+            <InputText id="name" @bind-Value="Title" placeholder="Add Todo.." style="width:inherit" />
+        </div>
+        <div class="col-md-3">
+            <input type="submit" value="Submit" class="btn btn-primary" style="width:inherit">
+        </div>
+    </div>
+</EditForm>
+
+@code {
+
+    [Required]
+    private string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<Models.Todo> OnCreate { get; set; }
+
+    private async Task create()
+    {
+        var todo = new Models.Todo
+        {
+            Title = Title
+        };
+        await OnCreate.InvokeAsync(todo);
+    }
+}

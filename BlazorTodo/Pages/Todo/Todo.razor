@@ -13,6 +13,8 @@
 }
 else
 {
+    <AddTodo OnCreate="@onCreate" />
+
     <table class="table">
         <tbody>
             @foreach (var todo in todos)
@@ -33,6 +35,12 @@ else
     protected override async Task OnInitializedAsync()
     {
         todos = await TodoService.GetAsync();
+    }
+
+    private async Task onCreate(Models.Todo addTodo)
+    {
+        var newTodo = await TodoService.AddAsync(addTodo);
+        todos.Add(newTodo);
     }
 
     private async Task onDelete(UIMouseEventArgs e, Models.Todo todo)
